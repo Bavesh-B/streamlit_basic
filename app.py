@@ -110,5 +110,5 @@ if uploaded_file is not None:
         st.write("")
         st.write("Classifying...")
 
-        y_pred, val, c = predict_class(img, '/content/Skin_Cancer.hdf5')
+        y_pred, val, c = predict_class(img, 'Skin_Cancer.hdf5')
         st.write(f'The above image is a {c} lesion.')
