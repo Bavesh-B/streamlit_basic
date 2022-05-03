@@ -36,7 +36,7 @@ def predict_class(img, weights):
 
     image = img
     size = (28, 28)
-    image = ImageOps.fit(image, size, Image.ANTIALIAS)
+    image = ImageOps.fit(image, size, Image.Resampling.LANCZOS)
 
     image_array = np.asarray(image)
     # normalizing the image array
@@ -80,11 +80,11 @@ def ssim(org_img, pred_img, max_p: int = 4095) -> float:
 
     org_image = org_img
     size = (28, 28)
-    org_image = ImageOps.fit(org_image, size, Image.ANTIALIAS)
+    org_image = ImageOps.fit(org_image, size, Image.Resampling.LANCZOS)
 
     pred_image = pred_img
     size = (28, 28)
-    pred_image = ImageOps.fit(pred_image, size, Image.ANTIALIAS)
+    pred_image = ImageOps.fit(pred_image, size, Image.Resampling.LANCZOS)
 
     org_array = np.asarray(org_image)
     pred_array = np.asarray(pred_image)
