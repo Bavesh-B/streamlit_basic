@@ -6,6 +6,9 @@ from PIL import Image, ImageOps
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Conv2D, Flatten, BatchNormalization, Dropout, Dense, MaxPool2D
 
+from skimage.metrics import structural_similarity
+import phasepack.phasecong as pc
+
 
 def predict_class(img, weights):
     model = Sequential()
@@ -57,14 +60,55 @@ def predict_class(img, weights):
     return y_pred, val, label_mapping[val]
 
 
+def _assert_image_shapes_equal(org_img: np.ndarray, pred_img: np.ndarray, metric: str):
+    # shape of the image should be like this (rows, cols, bands)
+    # Please note that: The interpretation of a 3-dimension array read from rasterio is: (bands, rows, columns) while
+    # image processing software like scikit-image, pillow and matplotlib are generally ordered: (rows, columns, bands)
+    # in order efficiently swap the axis order one can use reshape_as_raster, reshape_as_image from rasterio.plot
+    msg = (
+        f"Cannot calculate {metric}. Input shapes not identical. y_true shape ="
+        f"{str(org_img.shape)}, y_pred shape = {str(pred_img.shape)}"
+    )
+
+    assert org_img.shape == pred_img.shape, msg
+
+
+def ssim(org_img, pred_img, max_p: int = 4095) -> float:
+    """
+    Structural Simularity Index
+    """
+
+    org_image = org_img
+    size = (28, 28)
+    org_image = ImageOps.fit(org_image, size, Image.ANTIALIAS)
+
+    pred_image = pred_img
+    size = (28, 28)
+    pred_image = ImageOps.fit(pred_image, size, Image.ANTIALIAS)
+
+    org_array = np.asarray(org_image)
+    pred_array = np.asarray(pred_image)
+
+    _assert_image_shapes_equal(org_array, pred_array, "SSIM")
+
+    return structural_similarity(org_array, pred_array, data_range=max_p, multichannel=True)
+
+
 uploaded_file = st.file_uploader(
     "Choose a histopathological image", type='jpg')
 
 if uploaded_file is not None:
     img = Image.open(uploaded_file)
+    img2 = Image.open('test.jpg')
     st.image(img, caption='Uploaded file', use_column_width=True)
-    st.write("")
-    st.write("Classifying...")
 
-    y_pred, val, c = predict_class(img, 'Skin_Cancer.hdf5')
-    st.write(f'The above image is a {c} lesion.')
+    similarity = ssim(img, img2)
+    st.write("")
+    st.write(f'This is {similarity * 100}% histopathologivcal image')
+
+    if similarity >= 0.8:
+        st.write("")
+        st.write("Classifying...")
+
+        y_pred, val, c = predict_class(img, '/content/Skin_Cancer.hdf5')
+        st.write(f'The above image is a {c} lesion.')
