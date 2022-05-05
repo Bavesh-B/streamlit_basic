@@ -95,7 +95,7 @@ def ssim(org_img, pred_img, max_p: int = 4095) -> float:
 
 
 uploaded_file = st.file_uploader(
-    "Choose a histopathological image", type='jpg')
+    "Choose a histopathological image", type=['jpg', 'jpeg', 'png'])
 
 if uploaded_file is not None:
     img = Image.open(uploaded_file)
