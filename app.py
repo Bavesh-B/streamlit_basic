@@ -112,3 +112,6 @@ if uploaded_file is not None:
 
         y_pred, val, c = predict_class(img, 'Skin_Cancer.hdf5')
         st.write(f'The above image is a {c} lesion.')
+
+    else:
+        st.write('Not Classifying as it is not a histopathological image.')
