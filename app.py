@@ -99,19 +99,19 @@ uploaded_file = st.file_uploader(
 
 if uploaded_file is not None:
     img = Image.open(uploaded_file)
-    img2 = Image.open('test.jpg')
+    # img2 = Image.open('test.jpg')
     st.image(img, caption='Uploaded file', use_column_width=True)
 
-    similarity = ssim(img, img2)
+    # similarity = ssim(img, img2)
+    # st.write("")
+    # st.write(f'This is {similarity * 100}% histopathological image')
+
+    # if similarity >= 0.85:
     st.write("")
-    st.write(f'This is {similarity * 100}% histopathological image')
+    st.write("Classifying...")
 
-    if similarity >= 0.85:
-        st.write("")
-        st.write("Classifying...")
+    y_pred, val, c = predict_class(img, 'Skin_Cancer.hdf5')
+    st.write(f'The above image is a {c} lesion.')
 
-        y_pred, val, c = predict_class(img, 'Skin_Cancer.hdf5')
-        st.write(f'The above image is a {c} lesion.')
-
-    else:
-        st.write('Not Classifying as it is not a histopathological image.')
+    # else:
+    # st.write('Not Classifying as it is not a histopathological image.')
