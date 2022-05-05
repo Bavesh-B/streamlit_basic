@@ -104,9 +104,9 @@ if uploaded_file is not None:
 
     similarity = ssim(img, img2)
     st.write("")
-    st.write(f'This is {similarity * 100}% histopathologivcal image')
+    st.write(f'This is {similarity * 100}% histopathological image')
 
-    if similarity >= 0.8:
+    if similarity >= 0.85:
         st.write("")
         st.write("Classifying...")
 
