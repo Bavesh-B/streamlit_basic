@@ -3,33 +3,34 @@ import tensorflow as tf
 from tensorflow import keras
 import numpy as np
 from PIL import Image, ImageOps
-from tensorflow.keras.models import Sequential
+from tensorflow.keras.models import Sequential, load_model
 from tensorflow.keras.layers import Conv2D, Flatten, BatchNormalization, Dropout, Dense, MaxPool2D
 
 from skimage.metrics import structural_similarity
 import phasepack.phasecong as pc
 
 
-def predict_class(img, weights):
-    model = Sequential()
-    model.add(Conv2D(16, kernel_size=(3, 3), input_shape=(
-        28, 28, 3), activation='relu', padding='same'))
-    model.add(MaxPool2D(pool_size=(2, 2)))
+def predict_class(img, m):
+    # model = Sequential()
+    # model.add(Conv2D(16, kernel_size=(3, 3), input_shape=(
+    #     28, 28, 3), activation='relu', padding='same'))
+    # model.add(MaxPool2D(pool_size=(2, 2)))
 
-    model.add(Conv2D(32, kernel_size=(3, 3), activation='relu', padding='same'))
-    model.add(MaxPool2D(pool_size=(2, 2), padding='same'))
+    # model.add(Conv2D(32, kernel_size=(3, 3), activation='relu', padding='same'))
+    # model.add(MaxPool2D(pool_size=(2, 2), padding='same'))
 
-    model.add(Conv2D(64, kernel_size=(3, 3), activation='relu', padding='same'))
-    model.add(MaxPool2D(pool_size=(2, 2), padding='same'))
-    model.add(Conv2D(128, kernel_size=(3, 3),
-              activation='relu', padding='same'))
-    model.add(MaxPool2D(pool_size=(2, 2), padding='same'))
+    # model.add(Conv2D(64, kernel_size=(3, 3), activation='relu', padding='same'))
+    # model.add(MaxPool2D(pool_size=(2, 2), padding='same'))
+    # model.add(Conv2D(128, kernel_size=(3, 3),
+    #           activation='relu', padding='same'))
+    # model.add(MaxPool2D(pool_size=(2, 2), padding='same'))
 
-    model.add(Flatten())
-    model.add(Dense(64, activation='relu'))
-    model.add(Dense(32, activation='relu'))
-    model.add(Dense(7, activation='softmax'))
-    model.load_weights(weights)
+    # model.add(Flatten())
+    # model.add(Dense(64, activation='relu'))
+    # model.add(Dense(32, activation='relu'))
+    # model.add(Dense(7, activation='softmax'))
+    # model.load_weights(weights)
+    model = load_model(m)
 
     # Creating array of right shape to feed into model
     data = np.ndarray(shape=(1, 28, 28, 3), dtype=np.float32)
@@ -110,7 +111,7 @@ if uploaded_file is not None:
     st.write("")
     st.write("Classifying...")
 
-    y_pred, val, c = predict_class(img, 'Skin_Cancer.hdf5')
+    y_pred, val, c = predict_class(img, 'Skin_Cancer.sav')
     st.write(f'The above image is a {c} lesion.')
 
     # else:
