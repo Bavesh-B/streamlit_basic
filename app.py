@@ -33,20 +33,14 @@ def predict_class(img, m):
     model = load_model(m)
 
     # Creating array of right shape to feed into model
-    data = np.ndarray(shape=(1, 28, 28, 3), dtype=np.float32)
+    img2 = img.resize((28, 28))
 
-    image = img
-    size = (28, 28)
-    image = ImageOps.fit(image, size, Image.Resampling.LANCZOS)
+    image_array = np.asarray(img2)
+    new_one = image_array.reshape((1, 28, 28, 3))
 
-    image_array = np.asarray(image)
-    # normalizing the image array
-    normalized_image_array = (image_array.astype(np.float32) / 255)
-
-    data[0] = normalized_image_array
-
-    y_pred = model.predict(data)
-    val = np.argmax(y_pred)
+    y_pred = model(new_one)
+    print(y_pred)
+    val = np.argmax(y_pred, axis=1)
 
     label_mapping = {
         0: 'nv',
