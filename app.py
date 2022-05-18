@@ -91,17 +91,19 @@ def ssim(org_img, pred_img, max_p: int = 4095) -> float:
 
 st.title('Skin Lesion Detection from Dermatoscopic images')
 
-st.subheader('We detect 7 different types of lesions')
-st.caption('Melanoma (mel)')
-st.caption('Melanocytic nevus (nv)')
-st.caption('Basal cell carcinoma (bcc)')
-st.caption('Actinic keratosis (akeic)')
-st.caption('Benign keratosis-like lesions (bkl)')
-st.caption('Vascular lesions (vasc)')
-st.caption('Dermatofibroma (df)')
+if st, button('Learn More..'):
+
+    st.subheader('We detect 7 different types of lesions')
+    st.caption('Melanoma (mel)')
+    st.caption('Melanocytic nevus (nv)')
+    st.caption('Basal cell carcinoma (bcc)')
+    st.caption('Actinic keratosis (akeic)')
+    st.caption('Benign keratosis-like lesions (bkl)')
+    st.caption('Vascular lesions (vasc)')
+    st.caption('Dermatofibroma (df)')
 
 uploaded_file = st.file_uploader(
-    "Choose a histopathological image", type=['jpg', 'jpeg', 'png'])
+    "Choose a dermatoscopic image", type=['jpg', 'jpeg', 'png'])
 
 if uploaded_file is not None:
     img = Image.open(uploaded_file)
