@@ -39,8 +39,8 @@ def predict_class(img, m):
     new_one = image_array.reshape((1, 28, 28, 3))
 
     y_pred = model(new_one)
-    print(y_pred)
-    val = np.argmax(y_pred, axis=1)
+    st.write(f'The predictions are {y_pred}')
+    val = np.argmax(y_pred)
 
     label_mapping = {
         0: 'nv',
