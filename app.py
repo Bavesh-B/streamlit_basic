@@ -89,6 +89,8 @@ def ssim(org_img, pred_img, max_p: int = 4095) -> float:
     return structural_similarity(org_array, pred_array, data_range=max_p, multichannel=True)
 
 
+st.title('Skin Lesion Detection from Histopathological images')
+
 uploaded_file = st.file_uploader(
     "Choose a histopathological image", type=['jpg', 'jpeg', 'png'])
 
