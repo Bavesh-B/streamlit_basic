@@ -91,7 +91,7 @@ def ssim(org_img, pred_img, max_p: int = 4095) -> float:
 
 st.title('Skin Lesion Detection from Dermatoscopic images')
 
-if st, button('Learn More..'):
+if st.button('Learn More..'):
 
     st.subheader('We detect 7 different types of lesions')
     st.caption('Melanoma (mel)')
